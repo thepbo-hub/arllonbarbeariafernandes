@@ -1,0 +1,253 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --font-serif: 'Playfair Display', Georgia, serif;
+    --font-sans: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  }
+
+  body {
+    font-family: var(--font-sans);
+    background-color: #050B17;
+    color: #FFFFFF;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
+
+.font-serif {
+  font-family: 'Playfair Display', Georgia, serif;
+}
+
+.font-sans {
+  font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+/* =========================================================================
+   HIGH-TECH & MASCULINE VISUAL EFFECTS (Luzes, Neon, Laser & Cyber-Barber)
+   ========================================================================= */
+
+/* 1. Volumetric Rotating Light Halo behind Logo */
+@keyframes halo-rotate {
+  0% {
+    transform: rotate(0deg) scale(1);
+  }
+  50% {
+    transform: rotate(180deg) scale(1.08);
+  }
+  100% {
+    transform: rotate(360deg) scale(1);
+  }
+}
+
+.animate-halo-rotate {
+  animation: halo-rotate 12s linear infinite;
+}
+
+/* 2. Cybernetic Reticle Counter-Rotation */
+@keyframes reticle-counter-rotate {
+  0% {
+    transform: rotate(360deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
+.animate-reticle-reverse {
+  animation: reticle-counter-rotate 24s linear infinite;
+}
+
+/* 3. Razor Blade Laser Gleam across Logo */
+@keyframes razor-gleam {
+  0% {
+    transform: translateX(-150%) translateY(-150%) rotate(45deg);
+    opacity: 0;
+  }
+  15% {
+    opacity: 0.85;
+  }
+  30% {
+    transform: translateX(150%) translateY(150%) rotate(45deg);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(150%) translateY(150%) rotate(45deg);
+    opacity: 0;
+  }
+}
+
+.animate-razor-gleam {
+  animation: razor-gleam 4s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+/* 4. Pulsing Neon Core */
+@keyframes neon-core-pulse {
+  0%, 100% {
+    opacity: 0.55;
+    transform: scale(0.95);
+    filter: drop-shadow(0 0 25px rgba(56, 189, 248, 0.55)) drop-shadow(0 0 55px rgba(30, 79, 163, 0.7));
+  }
+  50% {
+    opacity: 0.9;
+    transform: scale(1.08);
+    filter: drop-shadow(0 0 45px rgba(56, 189, 248, 0.95)) drop-shadow(0 0 95px rgba(30, 79, 163, 0.95));
+  }
+}
+
+.animate-neon-pulse {
+  animation: neon-core-pulse 3.5s ease-in-out infinite;
+}
+
+/* 5. Shimmer Light Reflection Effect for Top CTA */
+@keyframes cta-shimmer {
+  0% {
+    transform: translateX(-150%) skewX(-20deg);
+  }
+  35%, 100% {
+    transform: translateX(250%) skewX(-20deg);
+  }
+}
+
+.animate-shimmer {
+  animation: cta-shimmer 3.8s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+/* 6. Rotating Border Gradient for Booking Button */
+@keyframes border-glow-spin {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.animate-border-glow {
+  background-size: 200% 200%;
+  animation: border-glow-spin 4s ease infinite;
+}
+
+/* 7. Gentle Luxury Tech Pulse */
+@keyframes gentle-tech-pulse {
+  0%, 100% {
+    box-shadow: 0 0 25px rgba(30, 79, 163, 0.5), 0 0 50px rgba(0, 210, 255, 0.25);
+  }
+  50% {
+    box-shadow: 0 0 40px rgba(30, 79, 163, 0.85), 0 0 80px rgba(0, 210, 255, 0.45);
+  }
+}
+
+.animate-luxury-pulse {
+  animation: gentle-tech-pulse 2.8s ease-in-out infinite;
+}
+
+/* 8. Radar Scan Beam for Location HUD */
+@keyframes radar-sweep {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-radar {
+  animation: radar-sweep 5s linear infinite;
+}
+
+/* =========================================================================
+   BACKGROUND TEXTURES & HUD MESH (High-Tech Masculino)
+   ========================================================================= */
+
+.bg-tech-grid {
+  background-color: #050B17;
+  background-image: 
+    /* Top Spotlights */
+    radial-gradient(circle at 50% -10%, rgba(0, 210, 255, 0.22) 0%, transparent 55%),
+    radial-gradient(circle at 50% 18%, rgba(30, 79, 163, 0.45) 0%, transparent 60%),
+    radial-gradient(circle at 10% 55%, rgba(14, 165, 233, 0.12) 0%, transparent 45%),
+    radial-gradient(circle at 90% 75%, rgba(30, 79, 163, 0.2) 0%, transparent 50%),
+    /* Micro Laser Grid */
+    linear-gradient(to right, rgba(201, 206, 214, 0.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(201, 206, 214, 0.04) 1px, transparent 1px),
+    /* Tech Dot Matrix */
+    radial-gradient(rgba(255, 255, 255, 0.08) 1px, transparent 1px);
+  background-size: 100% 100%, 100% 100%, 100% 100%, 100% 100%, 40px 40px, 40px 40px, 20px 20px;
+}
+
+/* High-Tech Card (Titanium + Glass + Subtle Laser Hairline) */
+.tech-card {
+  background: linear-gradient(145deg, rgba(13, 27, 56, 0.75) 0%, rgba(7, 16, 36, 0.85) 100%);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(56, 189, 248, 0.18);
+  box-shadow: 
+    0 10px 30px -10px rgba(0, 0, 0, 0.6),
+    inset 0 1px 1px 0 rgba(255, 255, 255, 0.15),
+    inset 0 -1px 1px 0 rgba(0, 0, 0, 0.4);
+  position: relative;
+  transition: all 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.tech-card:hover {
+  border-color: rgba(56, 189, 248, 0.55);
+  box-shadow: 
+    0 16px 40px -10px rgba(0, 210, 255, 0.3),
+    0 0 20px rgba(30, 79, 163, 0.45),
+    inset 0 1px 2px 0 rgba(255, 255, 255, 0.3);
+  transform: translateY(-3px) scale(1.008);
+}
+
+.tech-card:active {
+  transform: translateY(-1px) scale(0.995);
+}
+
+/* Subtle corner tech tick markers */
+.tech-corner::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 8px;
+  height: 8px;
+  border-top: 2px solid rgba(56, 189, 248, 0.6);
+  border-left: 2px solid rgba(56, 189, 248, 0.6);
+  border-top-left-radius: 12px;
+  pointer-events: none;
+}
+
+.tech-corner::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 8px;
+  height: 8px;
+  border-bottom: 2px solid rgba(56, 189, 248, 0.6);
+  border-right: 2px solid rgba(56, 189, 248, 0.6);
+  border-bottom-right-radius: 12px;
+  pointer-events: none;
+}
+
+/* 3D Emboss & Relief Lighting */
+.badge-3d-emboss {
+  box-shadow: 
+    inset 0 1px 1px 0 rgba(255, 255, 255, 0.5),
+    inset 0 -2px 4px 0 rgba(0, 0, 0, 0.4),
+    0 6px 14px -2px rgba(0, 0, 0, 0.6),
+    0 2px 4px -1px rgba(0, 0, 0, 0.4);
+}
+
+/* Reduced motion respect */
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

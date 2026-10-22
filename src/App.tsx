@@ -67,8 +67,8 @@ export const CONFIG = {
   },
 
   // 4. Dados do Wi-Fi para Clientes (Edite aqui)
-  wifiName: "NOME_DA_REDE",
-  wifiPassword: "SENHA_DA_REDE",
+  wifiName: "Arllon Barbearia",
+  wifiPassword: "Clienteblack1!",
   wifiInstructions: "Copie a senha e cole nas configurações de Wi-Fi do seu celular.",
 
   // 5. Localização & Rotas de Transporte
@@ -444,7 +444,7 @@ export default function App() {
                   </div>
                 </div>
 
-                {/* Rede */}
+                {/* Rede (apenas visualização) */}
                 <div className="flex items-center justify-between p-3 rounded-xl bg-[#050E22] border border-cyan-400/25 shadow-inner">
                   <div className="flex flex-col text-left">
                     <span className="text-[10px] text-cyan-300 font-mono tracking-wider uppercase">SSID / REDE</span>
@@ -452,15 +452,10 @@ export default function App() {
                       {CONFIG.wifiName}
                     </span>
                   </div>
-                  <button
-                    type="button"
-                    onClick={() => handleCopy(CONFIG.wifiName, 'Nome da rede', 'wifi-name')}
-                    aria-label="Copiar nome da rede Wi-Fi"
-                    className="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-blue-600/80 hover:bg-blue-600 text-white border border-cyan-300/40 text-xs font-semibold transition-all duration-200 active:scale-95 shadow-[0_0_12px_rgba(0,210,255,0.25)]"
-                  >
-                    <Copy3DIcon size={15} copied={copiedKey === 'wifi-name'} />
-                    <span>{copiedKey === 'wifi-name' ? 'Copiado!' : 'Copiar'}</span>
-                  </button>
+                  <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-cyan-500/10 border border-cyan-400/20 text-cyan-300 text-[11px] font-mono font-medium">
+                    <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse" />
+                    <span>Conectar</span>
+                  </div>
                 </div>
 
                 {/* Senha */}

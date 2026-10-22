@@ -49,8 +49,8 @@ export const CONFIG = {
   },
 
   // 4. Dados do Wi-Fi para Clientes (Edite aqui o nome e a senha da sua rede)
-  wifiName: "NOME_DA_REDE",
-  wifiPassword: "SENHA_DA_REDE",
+  wifiName: "Arllon Barbearia",
+  wifiPassword: "Clienteblack1!",
   wifiHelpText: "Copie a senha e cole nas configurações de Wi-Fi do seu celular.",
 
   // 5. Onde Estamos & Rotas de Transporte

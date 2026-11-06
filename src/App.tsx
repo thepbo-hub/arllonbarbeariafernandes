@@ -14,94 +14,19 @@ import {
 import { ScrollReveal } from './components/ScrollReveal';
 import { Toast } from './components/Toast';
 import { TechLogoWithGlow } from './components/TechLogoWithGlow';
+import { CookieBanner } from './components/CookieBanner';
+import { LegalModal, LegalModalType } from './components/LegalModal';
 import { copyToClipboard } from './utils/clipboard';
-
-/**
- * =========================================================================
- * OBJETO DE CONFIGURAÇÃO CENTRALIZADO (CONFIG)
- * =========================================================================
- * Altere facilmente qualquer texto, link, dados do Wi-Fi ou endereço abaixo.
- * Todos os elementos do biosite são gerados a partir deste objeto.
- * =========================================================================
- */
-export const CONFIG = {
-  // 1. Informações da Barbearia & Topo
-  brandName: "Arllon Fernandes Barbearia",
-  tagline: "Tradição, cuidado e estilo em cada detalhe.",
-  subTagline: "Sua imagem, nosso compromisso",
-  logoUrl: "https://i.postimg.cc/9f9gyfcT/Emblema-Azul-com-Navalha-Branca.png",
-
-  // 2. Agendamento (Botão de Destaque Máximo)
-  booking: {
-    title: "Agendar horário",
-    subtitle: "Escolha seu profissional e horário em poucos cliques",
-    badge: "HORÁRIOS DISPONÍVEIS EM TEMPO REAL",
-    url: "https://sites.appbarber.com.br/arllonfernandesbarbeariao?utm_source=ig&utm_medium=social&utm_content=link_in_bio&fbclid=PAZXh0bgNhZW0CMTEAcGRvZgJzcnRjBmFwcF9pZA85MzY2MTk3NDMzOTI0NTkAAachB_VDveTB78O-0_afcGQUGfpLSDUB7o7S-JQQWVRN1X78SdbSwG5JyTt0GQ_aem_lbWSWM9Xk6IuavenbLUKEA",
-  },
-
-  // 3. Botões de Contato (Nesta ordem exata)
-  contacts: {
-    whatsapp: {
-      title: "Chamar no WhatsApp",
-      subtitle: "Atendimento direto com a equipe",
-      tag: "ONLINE",
-      url: "https://wa.link/b6b88i",
-    },
-    instagram: {
-      title: "Siga no Instagram",
-      subtitle: "@arllonfernandesbarbearia",
-      tag: "OFICIAL",
-      url: "https://www.instagram.com/arllonfernandesbarbearia?utm_source=ig_web_button_share_sheet&stkn=ZDNlZDc0MzIxNw==",
-    },
-    googleReviews: {
-      title: "Avalie-nos no Google",
-      subtitle: "5.0 ★ Avaliações verificadas de clientes",
-      tag: "5.0 ★★★★★",
-      url: "https://search.google.com/local/writereview?placeid=ChIJ57LeZEB_mQAR_BxLhX7Qivo",
-    },
-    wifi: {
-      title: "Wi-Fi para clientes",
-      subtitle: "Rede 5G ultrarrápida gratuita",
-      tag: "ACESSO LIVRE",
-    },
-  },
-
-  // 4. Dados do Wi-Fi para Clientes (Edite aqui)
-  wifiName: "Arllon Barbearia",
-  wifiPassword: "Clienteblack1!",
-  wifiInstructions: "Copie a senha e cole nas configurações de Wi-Fi do seu celular.",
-
-  // 5. Localização & Rotas de Transporte
-  location: {
-    title: "Onde estamos",
-    coordinates: "RIO COMPRIDO • 22°55'17\"S 43°12'29\"W",
-    addressFull: "Rua Campos da Paz, 46, Rio Comprido, Rio de Janeiro - RJ, CEP 20250-460",
-    addressShort: "Rua Campos da Paz, 46 - Rio Comprido, Rio de Janeiro - RJ",
-    addressForCopy: "Rua Campos da Paz, 46, Rio Comprido, Rio de Janeiro - RJ",
-    
-    // Links de navegação e transporte
-    googleMapsUrl: "https://maps.app.goo.gl/cZwtinJrbxXNQ1tx7",
-    googleMapsRouteUrl: "https://www.google.com/maps/dir/?api=1&destination=Rua+Campos+da+Paz+46+Rio+Comprido+Rio+de+Janeiro+RJ",
-    wazeUrl: "https://waze.com/ul?q=Rua%20Campos%20da%20Paz%2046%20Rio%20Comprido%20Rio%20de%20Janeiro&navigate=yes",
-    uberUrl: "https://m.uber.com/ul/?action=setPickup&pickup=my_location&dropoff[nickname]=Arllon%20Fernandes%20Barbearia&dropoff[formatted_address]=Rua%20Campos%20da%20Paz%2C%2046%2C%20Rio%20Comprido%2C%20Rio%20de%20Janeiro",
-    app99Url: "https://99app.com",
-  },
-
-  // 6. Rodapé
-  footer: {
-    copyright: "© Arllon Fernandes Barbearia",
-    rights: "Todos os direitos reservados.",
-    taglineShort: "Precisão cirúrgica, estética masculina refinada.",
-  },
-};
+import { CONFIG } from './config';
 
 export default function App() {
   const [wifiExpanded, setWifiExpanded] = useState(false);
   const [copiedKey, setCopiedKey] = useState<string | null>(null);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
+  const [legalModal, setLegalModal] = useState<LegalModalType>(null);
   const toastTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
-  // Trigger copy feedback toast
+  // Trigger copy feedback toast with accessible feedback
   const handleCopy = async (text: string, label: string, key: string) => {
     const success = await copyToClipboard(text);
     if (success) {
@@ -121,29 +46,45 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-tech-grid text-white flex flex-col items-center justify-start px-4 py-6 sm:py-10 relative selection:bg-[#00D2FF] selection:text-[#050B17] overflow-x-hidden">
+      
+      {/* Accessible Skip Link for Screen Readers and Keyboard Nav */}
+      <a
+        href="#main-content"
+        className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2.5 focus:rounded-xl focus:bg-cyan-400 focus:text-[#050B17] focus:font-bold focus:shadow-lg focus:outline-none"
+      >
+        Pular para o conteúdo principal
+      </a>
+
       {/* Toast Notification */}
       <Toast message={toastMessage} onClose={() => setToastMessage(null)} />
 
+      {/* LGPD Cookie Consent Banner (Aceitar/Recusar sem rastreio prévio) */}
+      <CookieBanner onOpenCookiesPolicy={() => setLegalModal('cookies')} />
+
+      {/* LGPD Legal Modal (Privacidade, Termos de Uso, Cookies) */}
+      <LegalModal type={legalModal} onClose={() => setLegalModal(null)} />
+
       {/* Cybernetic High-Tech Ambient Beam Highlights */}
-      <div className="fixed top-0 left-1/2 -translate-x-1/2 w-full max-w-xl h-[480px] bg-gradient-to-b from-[#00D2FF]/20 via-[#1E4FA3]/25 to-transparent blur-[140px] pointer-events-none -z-10" />
-      <div className="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-lg h-96 bg-[#00D2FF]/10 blur-[120px] pointer-events-none -z-10" />
+      <div className="fixed top-0 left-1/2 -translate-x-1/2 w-full max-w-xl h-[480px] bg-gradient-to-b from-[#00D2FF]/20 via-[#1E4FA3]/25 to-transparent blur-[140px] pointer-events-none -z-10" aria-hidden="true" />
+      <div className="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-lg h-96 bg-[#00D2FF]/10 blur-[120px] pointer-events-none -z-10" aria-hidden="true" />
 
       {/* Tech Top Accent Bar (Laser Hairline) */}
-      <div className="fixed top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#00D2FF]/80 to-transparent z-40 pointer-events-none" />
+      <div className="fixed top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#00D2FF]/80 to-transparent z-40 pointer-events-none" aria-hidden="true" />
 
       {/* Main Single Vertical Column Container (Mobile-first, max-w-md on mobile/desktop) */}
-      <main className="w-full max-w-md mx-auto flex flex-col gap-6 sm:gap-7 z-10">
+      <main id="main-content" className="w-full max-w-md mx-auto flex flex-col gap-6 sm:gap-7 z-10" tabIndex={-1}>
 
         {/* =========================================================================
             1. TOPO / APRESENTAÇÃO (Com Luz Volumétrica, Brilho de Lâmina e Aura Neon)
             ========================================================================= */}
         <header className="flex flex-col items-center text-center pt-1 pb-1">
           
-          {/* Logo COM LUZ / BRILHO / EFEITO DE NAVALHA TECNOLÓGICA */}
+          {/* Logo COM LUZ / BRILHO / RETÍCULO CIBERNÉTICO (sem quadrado) */}
           <ScrollReveal delay={0}>
             <TechLogoWithGlow
-              logoUrl={CONFIG.logoUrl}
-              brandName={CONFIG.brandName}
+              logoUrl={CONFIG.brand.logoUrl}
+              brandName={CONFIG.brand.name}
+              altText={CONFIG.brand.logoAlt}
             />
           </ScrollReveal>
 
@@ -153,7 +94,7 @@ export default function App() {
               
               {/* Micro Status Chip Tecnológico */}
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#0d2857]/60 border border-cyan-400/30 backdrop-blur-md shadow-[0_0_15px_rgba(0,210,255,0.2)]">
-                <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse shadow-[0_0_8px_#22d3ee]" />
+                <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse shadow-[0_0_8px_#22d3ee]" aria-hidden="true" />
                 <span className="text-[10px] font-mono font-semibold tracking-widest uppercase text-cyan-200">
                   EXCELÊNCIA & ALTA PERFORMANCE
                 </span>
@@ -161,11 +102,11 @@ export default function App() {
 
               {/* Título com Gradiente Metálico Platina / Safira */}
               <h1 className="text-2xl sm:text-3xl font-serif font-extrabold tracking-tight bg-gradient-to-b from-white via-[#E2E8F0] to-[#94A3B8] bg-clip-text text-transparent drop-shadow-[0_4px_16px_rgba(0,0,0,0.8)]">
-                {CONFIG.brandName}
+                {CONFIG.brand.name}
               </h1>
               
               {/* Hairline Divider com Marcadores Cibernéticos */}
-              <div className="flex items-center justify-center gap-3 py-1">
+              <div className="flex items-center justify-center gap-3 py-1" aria-hidden="true">
                 <div className="h-[1px] w-14 bg-gradient-to-r from-transparent via-cyan-400/50 to-transparent" />
                 <div className="w-1.5 h-1.5 rotate-45 bg-cyan-400 shadow-[0_0_8px_#22d3ee]" />
                 <div className="h-[1px] w-14 bg-gradient-to-r from-transparent via-cyan-400/50 to-transparent" />
@@ -173,10 +114,10 @@ export default function App() {
 
               {/* Frases Oficiais */}
               <p className="text-sm sm:text-base text-[#E2E8F0] font-medium leading-relaxed max-w-xs mx-auto drop-shadow-sm">
-                {CONFIG.tagline}
+                {CONFIG.brand.tagline}
               </p>
-              <p className="text-xs sm:text-sm text-cyan-200/90 font-mono tracking-wide">
-                "{CONFIG.subTagline}"
+              <p className="text-xs sm:text-sm text-cyan-200/90 font-mono tracking-wide italic">
+                "{CONFIG.brand.subTagline}"
               </p>
             </div>
           </ScrollReveal>
@@ -186,14 +127,15 @@ export default function App() {
         {/* =========================================================================
             2. AGENDAMENTO (BOTÃO DE DESTAQUE MÁXIMO - CYBER-LUXURY)
             ========================================================================= */}
-        <section className="w-full">
+        <section aria-labelledby="booking-heading" className="w-full">
+          <h2 id="booking-heading" className="sr-only">Agendamento de Horário</h2>
           <ScrollReveal delay={180}>
             <a
               href={CONFIG.booking.url}
               target="_blank"
               rel="noopener noreferrer"
-              aria-label="Agendar horário na Arllon Fernandes Barbearia"
-              className="group relative flex items-center justify-between w-full min-h-[82px] sm:min-h-[88px] p-[2px] rounded-2xl bg-gradient-to-r from-cyan-400 via-blue-500 to-indigo-600 shadow-[0_0_30px_rgba(0,210,255,0.45)] hover:shadow-[0_0_45px_rgba(0,210,255,0.75)] animate-luxury-pulse transition-all duration-300 hover:scale-[1.025] active:scale-[0.98] focus:outline-none"
+              aria-label="Agendar horário na Arllon Fernandes Barbearia (abre aplicativo AppBarber em nova aba)"
+              className="group relative flex items-center justify-between w-full min-h-[82px] sm:min-h-[88px] p-[2px] rounded-2xl bg-gradient-to-r from-cyan-400 via-blue-500 to-indigo-600 shadow-[0_0_30px_rgba(0,210,255,0.45)] hover:shadow-[0_0_45px_rgba(0,210,255,0.75)] animate-luxury-pulse transition-all duration-300 hover:scale-[1.025] active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300 focus-visible:ring-offset-2 focus-visible:ring-offset-[#050B17]"
             >
               {/* Inner High-Tech Button Surface */}
               <div className="relative flex items-center justify-between w-full h-full px-5 sm:px-6 py-4 rounded-[14px] bg-gradient-to-r from-[#0d2757] via-[#103375] to-[#0d2757] overflow-hidden">
@@ -205,17 +147,17 @@ export default function App() {
                 />
 
                 {/* Laser Corner Accents */}
-                <div className="absolute top-0 left-0 w-3 h-3 border-t-2 border-l-2 border-cyan-300 rounded-tl-md pointer-events-none" />
-                <div className="absolute bottom-0 right-0 w-3 h-3 border-b-2 border-r-2 border-cyan-300 rounded-br-md pointer-events-none" />
+                <div className="absolute top-0 left-0 w-3 h-3 border-t-2 border-l-2 border-cyan-300 rounded-tl-md pointer-events-none" aria-hidden="true" />
+                <div className="absolute bottom-0 right-0 w-3 h-3 border-b-2 border-r-2 border-cyan-300 rounded-br-md pointer-events-none" aria-hidden="true" />
 
-                {/* Left Side: 3D Calendar Icon with Glowing Hologram Time */}
+                {/* Left Side: 3D Calendar Icon */}
                 <div className="flex items-center gap-4 relative z-10">
                   <div className="relative">
                     <Calendar3DIcon
                       size={56}
                       className="transition-transform duration-300 group-hover:scale-110 group-hover:-rotate-3 drop-shadow-[0_0_18px_rgba(0,210,255,0.6)]"
                     />
-                    <div className="absolute -bottom-1 -right-1 w-3.5 h-3.5 rounded-full bg-emerald-400 border-2 border-[#0A1F44] flex items-center justify-center">
+                    <div className="absolute -bottom-1 -right-1 w-3.5 h-3.5 rounded-full bg-emerald-400 border-2 border-[#0A1F44] flex items-center justify-center" aria-hidden="true">
                       <div className="w-1.5 h-1.5 rounded-full bg-white animate-ping" />
                     </div>
                   </div>
@@ -236,7 +178,7 @@ export default function App() {
                 </div>
 
                 {/* Right Side: High-Voltage Arrow Orb */}
-                <div className="relative z-10 w-10 h-10 rounded-xl bg-gradient-to-br from-cyan-400/30 to-blue-600/30 backdrop-blur-md border border-cyan-300/60 flex items-center justify-center shrink-0 shadow-[0_0_15px_rgba(0,210,255,0.4)] transition-all duration-300 group-hover:translate-x-1 group-hover:bg-cyan-400 group-hover:text-[#050B17]">
+                <div className="relative z-10 w-10 h-10 rounded-xl bg-gradient-to-br from-cyan-400/30 to-blue-600/30 backdrop-blur-md border border-cyan-300/60 flex items-center justify-center shrink-0 shadow-[0_0_15px_rgba(0,210,255,0.4)] transition-all duration-300 group-hover:translate-x-1 group-hover:bg-cyan-400 group-hover:text-[#050B17]" aria-hidden="true">
                   <svg
                     className="w-5 h-5 text-cyan-200 group-hover:text-[#050B17] transition-colors"
                     fill="none"
@@ -258,7 +200,8 @@ export default function App() {
             3. BOTÕES DE CONTATO (ESTILO CYBER-MASCULINO)
             Ordem exata: WhatsApp, Instagram, Google Avaliações, Wi-Fi
             ========================================================================= */}
-        <section className="flex flex-col gap-3.5 w-full">
+        <section aria-labelledby="contact-heading" className="flex flex-col gap-3.5 w-full">
+          <h2 id="contact-heading" className="sr-only">Canais de Contato e Comunicação</h2>
 
           {/* a) WhatsApp */}
           <ScrollReveal delay={260}>
@@ -266,8 +209,8 @@ export default function App() {
               href={CONFIG.contacts.whatsapp.url}
               target="_blank"
               rel="noopener noreferrer"
-              aria-label="Chamar no WhatsApp"
-              className="group tech-card tech-corner flex items-center justify-between w-full min-h-[66px] px-4 sm:px-5 py-3.5 rounded-2xl cursor-pointer focus:outline-none hover:border-emerald-400/60 hover:shadow-[0_0_25px_rgba(37,211,102,0.35)]"
+              aria-label="Chamar equipe no WhatsApp (abre em nova aba)"
+              className="group tech-card tech-corner flex items-center justify-between w-full min-h-[66px] px-4 sm:px-5 py-3.5 rounded-2xl cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400 hover:border-emerald-400/60 hover:shadow-[0_0_25px_rgba(37,211,102,0.35)]"
             >
               <div className="flex items-center gap-3.5">
                 <WhatsApp3DIcon
@@ -289,7 +232,7 @@ export default function App() {
                 </div>
               </div>
 
-              <div className="w-8 h-8 rounded-lg bg-emerald-500/10 border border-emerald-400/20 flex items-center justify-center shrink-0 transition-all duration-300 group-hover:bg-emerald-500/30 group-hover:border-emerald-400 group-hover:translate-x-1">
+              <div className="w-8 h-8 rounded-lg bg-emerald-500/10 border border-emerald-400/20 flex items-center justify-center shrink-0 transition-all duration-300 group-hover:bg-emerald-500/30 group-hover:border-emerald-400 group-hover:translate-x-1" aria-hidden="true">
                 <svg className="w-4 h-4 text-emerald-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.2">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
                 </svg>
@@ -303,8 +246,8 @@ export default function App() {
               href={CONFIG.contacts.instagram.url}
               target="_blank"
               rel="noopener noreferrer"
-              aria-label="Siga no Instagram"
-              className="group tech-card tech-corner flex items-center justify-between w-full min-h-[66px] px-4 sm:px-5 py-3.5 rounded-2xl cursor-pointer focus:outline-none hover:border-pink-400/60 hover:shadow-[0_0_25px_rgba(225,48,108,0.35)]"
+              aria-label="Siga no Instagram oficial da barbearia (abre em nova aba)"
+              className="group tech-card tech-corner flex items-center justify-between w-full min-h-[66px] px-4 sm:px-5 py-3.5 rounded-2xl cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pink-400 hover:border-pink-400/60 hover:shadow-[0_0_25px_rgba(225,48,108,0.35)]"
             >
               <div className="flex items-center gap-3.5">
                 <Instagram3DIcon
@@ -326,7 +269,7 @@ export default function App() {
                 </div>
               </div>
 
-              <div className="w-8 h-8 rounded-lg bg-pink-500/10 border border-pink-400/20 flex items-center justify-center shrink-0 transition-all duration-300 group-hover:bg-pink-500/30 group-hover:border-pink-400 group-hover:translate-x-1">
+              <div className="w-8 h-8 rounded-lg bg-pink-500/10 border border-pink-400/20 flex items-center justify-center shrink-0 transition-all duration-300 group-hover:bg-pink-500/30 group-hover:border-pink-400 group-hover:translate-x-1" aria-hidden="true">
                 <svg className="w-4 h-4 text-pink-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.2">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
                 </svg>
@@ -340,8 +283,8 @@ export default function App() {
               href={CONFIG.contacts.googleReviews.url}
               target="_blank"
               rel="noopener noreferrer"
-              aria-label="Avalie-nos no Google"
-              className="group tech-card tech-corner flex items-center justify-between w-full min-h-[66px] px-4 sm:px-5 py-3.5 rounded-2xl cursor-pointer focus:outline-none hover:border-amber-400/60 hover:shadow-[0_0_25px_rgba(251,188,4,0.3)]"
+              aria-label="Avalie-nos no Google ou veja avaliações de clientes (abre em nova aba)"
+              className="group tech-card tech-corner flex items-center justify-between w-full min-h-[66px] px-4 sm:px-5 py-3.5 rounded-2xl cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400 hover:border-amber-400/60 hover:shadow-[0_0_25px_rgba(251,188,4,0.3)]"
             >
               <div className="flex items-center gap-3.5">
                 <Google3DIcon
@@ -363,7 +306,7 @@ export default function App() {
                 </div>
               </div>
 
-              <div className="w-8 h-8 rounded-lg bg-amber-500/10 border border-amber-400/20 flex items-center justify-center shrink-0 transition-all duration-300 group-hover:bg-amber-500/30 group-hover:border-amber-400 group-hover:translate-x-1">
+              <div className="w-8 h-8 rounded-lg bg-amber-500/10 border border-amber-400/20 flex items-center justify-center shrink-0 transition-all duration-300 group-hover:bg-amber-500/30 group-hover:border-amber-400 group-hover:translate-x-1" aria-hidden="true">
                 <svg className="w-4 h-4 text-amber-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.2">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
                 </svg>
@@ -382,7 +325,7 @@ export default function App() {
                 wifiExpanded
                   ? 'border-cyan-400 bg-[#0d2a5c] shadow-[0_0_30px_rgba(0,210,255,0.45)]'
                   : 'hover:border-cyan-400/60 hover:shadow-[0_0_25px_rgba(0,210,255,0.35)]'
-              } focus:outline-none`}
+              } focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300`}
             >
               <div className="flex items-center gap-3.5">
                 <Wifi3DIcon
@@ -407,7 +350,7 @@ export default function App() {
               {/* Expand / Collapse Indicator with Cyber Glow */}
               <div className={`w-8 h-8 rounded-lg bg-cyan-500/10 border border-cyan-400/20 flex items-center justify-center shrink-0 transition-transform duration-300 ${
                 wifiExpanded ? 'rotate-180 bg-cyan-500/30 border-cyan-400 shadow-[0_0_12px_#22d3ee]' : 'group-hover:bg-cyan-500/20'
-              }`}>
+              }`} aria-hidden="true">
                 <svg className="w-4 h-4 text-cyan-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.2">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
                 </svg>
@@ -429,14 +372,14 @@ export default function App() {
                 {/* Tech Terminal Header */}
                 <div className="flex items-center justify-between pb-2 border-b border-cyan-400/20">
                   <div className="flex items-center gap-2">
-                    <span className="w-2 h-2 rounded-full bg-cyan-400 animate-ping" />
+                    <span className="w-2 h-2 rounded-full bg-cyan-400 animate-ping" aria-hidden="true" />
                     <span className="text-xs font-mono font-bold tracking-wider text-cyan-300 uppercase">
                       TERMINAL DE ACESSO WI-FI
                     </span>
                   </div>
                   
                   {/* Signal Strength Indicator */}
-                  <div className="flex items-end gap-1 h-3.5" title="Sinal 100%">
+                  <div className="flex items-end gap-1 h-3.5" title="Sinal 100%" aria-label="Força do sinal: 100%">
                     <div className="w-1 h-1.5 rounded-xs bg-cyan-400" />
                     <div className="w-1 h-2 rounded-xs bg-cyan-400" />
                     <div className="w-1 h-2.5 rounded-xs bg-cyan-400" />
@@ -452,13 +395,13 @@ export default function App() {
                       {CONFIG.wifiName}
                     </span>
                   </div>
-                  <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-cyan-500/10 border border-cyan-400/20 text-cyan-300 text-[11px] font-mono font-medium">
+                  <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-cyan-500/10 border border-cyan-400/20 text-cyan-300 text-[11px] font-mono font-medium" aria-hidden="true">
                     <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse" />
                     <span>Conectar</span>
                   </div>
                 </div>
 
-                {/* Senha */}
+                {/* Senha (exclusivamente copiável) */}
                 <div className="flex items-center justify-between p-3 rounded-xl bg-[#050E22] border border-cyan-400/25 shadow-inner">
                   <div className="flex flex-col text-left">
                     <span className="text-[10px] text-cyan-300 font-mono tracking-wider uppercase">PASSWORD / SENHA</span>
@@ -469,8 +412,8 @@ export default function App() {
                   <button
                     type="button"
                     onClick={() => handleCopy(CONFIG.wifiPassword, 'Senha do Wi-Fi', 'wifi-pass')}
-                    aria-label="Copiar senha da rede Wi-Fi"
-                    className="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-emerald-600/90 hover:bg-emerald-600 text-white border border-emerald-300/50 text-xs font-semibold transition-all duration-200 active:scale-95 shadow-[0_0_15px_rgba(16,185,129,0.35)]"
+                    aria-label="Copiar senha da rede Wi-Fi para a área de transferência"
+                    className="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-emerald-600/90 hover:bg-emerald-600 text-white border border-emerald-300/50 text-xs font-semibold transition-all duration-200 active:scale-95 shadow-[0_0_15px_rgba(16,185,129,0.35)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
                   >
                     <Copy3DIcon size={15} copied={copiedKey === 'wifi-pass'} />
                     <span>{copiedKey === 'wifi-pass' ? 'Copiada!' : 'Copiar'}</span>
@@ -491,7 +434,7 @@ export default function App() {
         {/* =========================================================================
             5. LOCALIZAÇÃO (RADAR HUD & ROTAS DE TRANSPORTE - SEM MAPA EMBUTIDO)
             ========================================================================= */}
-        <section className="w-full pt-2">
+        <section aria-labelledby="location-heading" className="w-full pt-2">
           <ScrollReveal delay={180}>
             <div className="p-5 sm:p-6 rounded-2xl tech-card tech-corner border-cyan-400/25 space-y-5">
               
@@ -500,12 +443,12 @@ export default function App() {
                 
                 {/* HUD Coordenadas */}
                 <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#050E22] border border-cyan-400/30 font-mono text-[10px] text-cyan-300 tracking-wider">
-                  <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-ping" />
+                  <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-ping" aria-hidden="true" />
                   <span>{CONFIG.location.coordinates}</span>
                 </div>
 
                 <div className="flex items-center justify-center gap-2 pt-1">
-                  <h2 className="text-xl sm:text-2xl font-serif font-bold text-white tracking-tight">
+                  <h2 id="location-heading" className="text-xl sm:text-2xl font-serif font-bold text-white tracking-tight">
                     {CONFIG.location.title}
                   </h2>
                 </div>
@@ -520,8 +463,8 @@ export default function App() {
                 href={CONFIG.location.googleMapsUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                aria-label="Ver barbearia no Google Maps"
-                className="group relative flex items-center justify-center gap-3 w-full min-h-[52px] px-4 py-3 rounded-xl bg-gradient-to-r from-blue-700 via-blue-600 to-indigo-700 border-2 border-cyan-400/50 text-white font-bold text-sm sm:text-base shadow-[0_0_20px_rgba(0,210,255,0.3)] transition-all duration-300 hover:shadow-[0_0_30px_rgba(0,210,255,0.6)] hover:-translate-y-0.5 active:scale-[0.98]"
+                aria-label="Ver barbearia no Google Maps (abre em nova aba)"
+                className="group relative flex items-center justify-center gap-3 w-full min-h-[52px] px-4 py-3 rounded-xl bg-gradient-to-r from-blue-700 via-blue-600 to-indigo-700 border-2 border-cyan-400/50 text-white font-bold text-sm sm:text-base shadow-[0_0_20px_rgba(0,210,255,0.3)] transition-all duration-300 hover:shadow-[0_0_30px_rgba(0,210,255,0.6)] hover:-translate-y-0.5 active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300"
               >
                 <Maps3DIcon size={30} />
                 <span>Ver no Google Maps</span>
@@ -532,10 +475,10 @@ export default function App() {
                 href={CONFIG.location.googleMapsRouteUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                aria-label="Traçar rota no Google Maps"
-                className="group flex items-center justify-center gap-2.5 w-full min-h-[46px] px-4 py-2.5 rounded-xl bg-[#091733] hover:bg-[#0d2757] border border-cyan-400/30 text-white font-medium text-xs sm:text-sm transition-all duration-200 hover:border-cyan-400/60 hover:-translate-y-0.5 active:scale-[0.98]"
+                aria-label="Traçar rota até a barbearia no Google Maps (abre em nova aba)"
+                className="group flex items-center justify-center gap-2.5 w-full min-h-[46px] px-4 py-2.5 rounded-xl bg-[#091733] hover:bg-[#0d2757] border border-cyan-400/30 text-white font-medium text-xs sm:text-sm transition-all duration-200 hover:border-cyan-400/60 hover:-translate-y-0.5 active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300"
               >
-                <svg className="w-4 h-4 text-cyan-300 group-hover:animate-pulse" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                <svg className="w-4 h-4 text-cyan-300 group-hover:animate-pulse" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2" aria-hidden="true">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                   <path strokeLinecap="round" strokeLinejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                 </svg>
@@ -545,11 +488,11 @@ export default function App() {
               {/* Divisória para os Apps de Transporte */}
               <div className="pt-1">
                 <div className="flex items-center justify-center gap-2 mb-3">
-                  <div className="h-[1px] flex-1 bg-gradient-to-r from-transparent to-cyan-400/30" />
+                  <div className="h-[1px] flex-1 bg-gradient-to-r from-transparent to-cyan-400/30" aria-hidden="true" />
                   <span className="text-[10px] font-mono uppercase tracking-widest text-cyan-300 font-semibold px-2">
                     ROTEAMENTO & APPS
                   </span>
-                  <div className="h-[1px] flex-1 bg-gradient-to-l from-transparent to-cyan-400/30" />
+                  <div className="h-[1px] flex-1 bg-gradient-to-l from-transparent to-cyan-400/30" aria-hidden="true" />
                 </div>
 
                 {/* Grade 2x2 no Celular para Apps de Transporte */}
@@ -560,8 +503,8 @@ export default function App() {
                     href={CONFIG.location.wazeUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    aria-label="Ir com aplicativo Waze"
-                    className="group flex items-center gap-2.5 p-3 rounded-xl bg-[#050E22]/90 hover:bg-[#0d2757] border border-cyan-400/20 hover:border-cyan-400 transition-all duration-200 hover:-translate-y-0.5 active:scale-95 shadow-sm"
+                    aria-label="Navegar até a barbearia com Waze (abre em nova aba)"
+                    className="group flex items-center gap-2.5 p-3 rounded-xl bg-[#050E22]/90 hover:bg-[#0d2757] border border-cyan-400/20 hover:border-cyan-400 transition-all duration-200 hover:-translate-y-0.5 active:scale-95 shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300"
                   >
                     <Waze3DIcon size={32} />
                     <div className="text-left leading-tight">
@@ -577,8 +520,8 @@ export default function App() {
                     href={CONFIG.location.uberUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    aria-label="Pedir Uber com destino à barbearia"
-                    className="group flex items-center gap-2.5 p-3 rounded-xl bg-[#050E22]/90 hover:bg-[#0d2757] border border-slate-700 hover:border-slate-400 transition-all duration-200 hover:-translate-y-0.5 active:scale-95 shadow-sm"
+                    aria-label="Pedir Uber com destino à barbearia (abre em nova aba)"
+                    className="group flex items-center gap-2.5 p-3 rounded-xl bg-[#050E22]/90 hover:bg-[#0d2757] border border-slate-700 hover:border-slate-400 transition-all duration-200 hover:-translate-y-0.5 active:scale-95 shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300"
                   >
                     <Uber3DIcon size={32} />
                     <div className="text-left leading-tight">
@@ -594,8 +537,8 @@ export default function App() {
                     href={CONFIG.location.app99Url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    aria-label="Abrir aplicativo 99"
-                    className="group flex items-center gap-2.5 p-3 rounded-xl bg-[#050E22]/90 hover:bg-[#0d2757] border border-amber-500/20 hover:border-amber-400 transition-all duration-200 hover:-translate-y-0.5 active:scale-95 shadow-sm"
+                    aria-label="Abrir aplicativo 99 (abre em nova aba)"
+                    className="group flex items-center gap-2.5 p-3 rounded-xl bg-[#050E22]/90 hover:bg-[#0d2757] border border-amber-500/20 hover:border-amber-400 transition-all duration-200 hover:-translate-y-0.5 active:scale-95 shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-300"
                   >
                     <App993DIcon size={32} />
                     <div className="text-left leading-tight">
@@ -610,12 +553,12 @@ export default function App() {
                   <button
                     type="button"
                     onClick={() => handleCopy(CONFIG.location.addressForCopy, 'Endereço', 'location-address')}
-                    aria-label="Copiar endereço completo da barbearia"
+                    aria-label="Copiar endereço completo da barbearia para colar no aplicativo"
                     className={`group flex items-center gap-2.5 p-3 rounded-xl border transition-all duration-200 hover:-translate-y-0.5 active:scale-95 ${
                       copiedKey === 'location-address'
                         ? 'bg-emerald-950/80 border-emerald-400 text-emerald-200 shadow-[0_0_15px_rgba(16,185,129,0.3)]'
                         : 'bg-[#050E22]/90 hover:bg-[#0d2757] border-cyan-400/20 hover:border-cyan-400 text-white'
-                    }`}
+                    } focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300`}
                   >
                     <div className="w-8 h-8 rounded-lg bg-cyan-400/10 flex items-center justify-center shrink-0">
                       <Copy3DIcon size={18} copied={copiedKey === 'location-address'} />
@@ -637,25 +580,27 @@ export default function App() {
 
 
         {/* =========================================================================
-            6. RODAPÉ (CYBER-MASCULINO)
+            6. RODAPÉ (CONFORMIDADE LGPD, TERMOS & ACESSIBILIDADE)
             ========================================================================= */}
-        <footer className="w-full pt-4 pb-10 text-center">
+        <footer className="w-full pt-4 pb-12 text-center" role="contentinfo">
           <ScrollReveal delay={120}>
-            <div className="flex flex-col items-center gap-3">
+            <div className="flex flex-col items-center gap-3.5">
+              
               {/* Logo pequena com leve brilho */}
               <div className="relative">
-                <div className="absolute inset-0 bg-cyan-400/30 blur-lg rounded-full" />
+                <div className="absolute inset-0 bg-cyan-400/30 blur-lg rounded-full" aria-hidden="true" />
                 <img
-                  src={CONFIG.logoUrl}
-                  alt="Logo Rodapé"
+                  src={CONFIG.brand.logoUrl}
+                  alt={CONFIG.brand.logoAlt}
                   className="w-14 h-auto object-contain opacity-85 hover:opacity-100 transition-opacity relative z-10"
                   loading="lazy"
                 />
               </div>
 
+              {/* Informações da Barbearia */}
               <div className="space-y-1">
                 <p className="text-sm font-serif font-bold tracking-wide text-white">
-                  {CONFIG.brandName}
+                  {CONFIG.brand.name}
                 </p>
                 <p className="text-xs font-mono text-cyan-200/70">
                   {CONFIG.footer.taglineShort}
@@ -665,7 +610,39 @@ export default function App() {
                 </p>
               </div>
 
-              <div className="h-[1px] w-28 bg-gradient-to-r from-transparent via-cyan-400/30 to-transparent my-1" />
+              {/* Aviso Informativo de Horários e Preços (Boas Práticas e Transparência) */}
+              <div className="max-w-xs px-3 py-2 rounded-lg bg-[#050E22]/90 border border-white/10 text-[11px] text-[#C9CED6]/80 leading-normal">
+                {CONFIG.legal.disclaimer}
+              </div>
+
+              {/* Links Legais LGPD (Modais dedicados no rodapé) */}
+              <nav aria-label="Links Legais e Privacidade" className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2 text-xs pt-1">
+                <button
+                  type="button"
+                  onClick={() => setLegalModal('privacy')}
+                  className="text-cyan-300 hover:text-white underline underline-offset-4 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300 rounded"
+                >
+                  Política de Privacidade
+                </button>
+                <span className="text-white/30" aria-hidden="true">•</span>
+                <button
+                  type="button"
+                  onClick={() => setLegalModal('terms')}
+                  className="text-cyan-300 hover:text-white underline underline-offset-4 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300 rounded"
+                >
+                  Termos de Uso
+                </button>
+                <span className="text-white/30" aria-hidden="true">•</span>
+                <button
+                  type="button"
+                  onClick={() => setLegalModal('cookies')}
+                  className="text-cyan-300 hover:text-white underline underline-offset-4 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300 rounded"
+                >
+                  Política de Cookies
+                </button>
+              </nav>
+
+              <div className="h-[1px] w-32 bg-gradient-to-r from-transparent via-cyan-400/30 to-transparent my-1" aria-hidden="true" />
 
               <p className="text-[11px] font-mono text-[#C9CED6]/50">
                 {CONFIG.footer.copyright} • {CONFIG.footer.rights}

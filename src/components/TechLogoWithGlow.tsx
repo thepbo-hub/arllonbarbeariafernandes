@@ -3,9 +3,10 @@ import React, { useState, useRef } from 'react';
 interface TechLogoWithGlowProps {
   logoUrl: string;
   brandName: string;
+  altText?: string;
 }
 
-export const TechLogoWithGlow: React.FC<TechLogoWithGlowProps> = ({ logoUrl, brandName }) => {
+export const TechLogoWithGlow: React.FC<TechLogoWithGlowProps> = ({ logoUrl, brandName, altText }) => {
   const [tilt, setTilt] = useState({ x: 0, y: 0, active: false });
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -136,7 +137,7 @@ export const TechLogoWithGlow: React.FC<TechLogoWithGlowProps> = ({ logoUrl, bra
       >
         <img
           src={logoUrl}
-          alt={brandName}
+          alt={altText || `Emblema oficial ${brandName} com ilustração de navalha e coroa clássica`}
           className="w-48 sm:w-56 md:w-60 h-auto object-contain drop-shadow-[0_12px_28px_rgba(0,210,255,0.45)] group-hover:drop-shadow-[0_16px_40px_rgba(56,189,248,0.8)] transition-all duration-300"
           loading="eager"
         />
